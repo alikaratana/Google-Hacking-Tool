@@ -1,18 +1,20 @@
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Created by ali on 15.11.2016.
- */
+
 public class main_screen {
 
 
@@ -31,9 +33,13 @@ public class main_screen {
     private JList list1;
     public SearchOperators searchOperators;
     public String url="http://www.google.com/";
+    static DefaultListModel<String> model = new DefaultListModel<>();
 
 
     public main_screen() {
+        ghdb();
+
+        list1.setModel(model);
 
         searchOperators=new SearchOperators();
         searchButton.addMouseListener(new MouseAdapter() {
@@ -114,6 +120,29 @@ public class main_screen {
         return url;
     }
 
+    public void ghdb()
+    {
+        List<String> linkler=new ArrayList<String>();
+        List<String> linklera=new ArrayList<String>();
+        File input = new File("ghdb_1-3953.html");
+        Document doc = null;
+        try {
+            doc = Jsoup.parse(input, "UTF-8", "http://example.com/");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Elements links = doc.select("a[href]");
+
+        for (Element link : links) {
+            linkler.add(link.attr("abs:href"));
+            linklera.add(link.text());
+            model.addElement(link.attr("abs:href"));
+
+        }
+        list1.setModel(model);
+
+
+    }
 
 
 
