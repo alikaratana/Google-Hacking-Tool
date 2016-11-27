@@ -28,6 +28,7 @@ public class main_screen {
     private JTextField non_words;
     private JTextField textField5;
     private JTextField textField6;
+    private JList list1;
     public SearchOperators searchOperators;
     public String url="http://www.google.com/";
 
@@ -112,6 +113,8 @@ public class main_screen {
 
         return url;
     }
+
+
 
 
 }
