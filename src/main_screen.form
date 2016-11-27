@@ -168,21 +168,28 @@
             </children>
           </grid>
           <grid id="325d" binding="ghdb" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
+            <margin top="5" left="5" bottom="5" right="5"/>
             <constraints>
               <tabbedpane title="Google Hacking Database"/>
             </constraints>
-            <properties/>
+            <properties>
+              <background color="-13008640"/>
+            </properties>
             <border type="none"/>
             <children>
-              <component id="ea189" class="javax.swing.JList" binding="list1" default-binding="true">
+              <scrollpane id="3af6a">
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="50"/>
-                  </grid>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
-              </component>
+                <border type="none"/>
+                <children>
+                  <component id="1e25b" class="javax.swing.JList" binding="list1" default-binding="true">
+                    <constraints/>
+                    <properties/>
+                  </component>
+                </children>
+              </scrollpane>
             </children>
           </grid>
           <grid id="30b0a" binding="zday" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">

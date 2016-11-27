@@ -124,7 +124,7 @@ public class main_screen {
     {
         List<String> linkler=new ArrayList<String>();
         List<String> linklera=new ArrayList<String>();
-        File input = new File("ghdb_1-3953.html");
+        File input = new File("Ghdb/ghdb_1-3953.html");
         Document doc = null;
         try {
             doc = Jsoup.parse(input, "UTF-8", "http://example.com/");
