@@ -31,6 +31,9 @@ public class main_screen {
     private JTextField num_from;
     private JTextField num_to;
     private JList list1;
+    private JComboBox comboBox1;
+    private JComboBox comboBox2;
+    private JTextField textField1;
     public SearchOperators searchOperators;
     public String url="http://www.google.com/search?q=";
     static DefaultListModel<String> model = new DefaultListModel<>();
