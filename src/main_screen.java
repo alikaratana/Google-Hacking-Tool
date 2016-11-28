@@ -31,9 +31,13 @@ public class main_screen {
     private JTextField num_from;
     private JTextField num_to;
     private JList list1;
+    private JComboBox terms_in;
+    private JComboBox file_types;
+    private JTextField textField1;
     private JComboBox comboBox1;
     private JComboBox comboBox2;
-    private JTextField textField1;
+    private JTextField textField2;
+    private JRadioButton radioButton1;
     public SearchOperators searchOperators;
     public String url="http://www.google.com/search?q=";
     static DefaultListModel<String> model = new DefaultListModel<>();
@@ -41,6 +45,7 @@ public class main_screen {
 
     public main_screen() {
         ghdb();
+        fill_combos();
 
         list1.setModel(model);
         searchOperators=new SearchOperators();
@@ -162,6 +167,22 @@ public class main_screen {
 
     }
 
+    public void fill_combos()
+    {
+        String[] terms={"Anywhere in the page","In the url of the page","In the title of the page",
+                "In the text of the page","In links to the page"};
+        String[] filetypes={"Other","Adobe Flash (.swf)","Adobe Portable Document Format (.pdf)","Adobe PostScript (.ps)",
+                "Autodesk Design Web Format (.dwf)","HTML (.htm, .html)","Microsoft Excel (.xls, .xlsx)",
+                "Microsoft PowerPoint (.ppt, .pptx)","Microsoft Word (.doc, .docx)","OpenOffice presentation (.odp)","OpenOffice text (.odt)}",
+                "Text (.txt, .text)","Basic source code (.bas)","C/C++ source code (.c, .cc, .cpp)",
+                "C# source code (.cs)","Java source code (.java)","Perl source code (.pl)","Python source code (.py)",
+                "Wireless Markup Language (.wml, .wap)","XML (.xml)"};
 
+        for(int i=0;i<terms.length;i++)
+            terms_in.addItem(terms[i]);
+
+        for(int i=0;i<filetypes.length;i++)
+            file_types.addItem(filetypes[i]);
+    }
 
 }
