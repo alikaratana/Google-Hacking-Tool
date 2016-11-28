@@ -28,11 +28,11 @@ public class main_screen {
     private JTextField exact_word;
     private JTextField any_words;
     private JTextField non_words;
-    private JTextField textField5;
-    private JTextField textField6;
+    private JTextField num_from;
+    private JTextField num_to;
     private JList list1;
     public SearchOperators searchOperators;
-    public String url="http://www.google.com/";
+    public String url="http://www.google.com/search?q=";
     static DefaultListModel<String> model = new DefaultListModel<>();
 
 
@@ -40,12 +40,12 @@ public class main_screen {
         ghdb();
 
         list1.setModel(model);
-
         searchOperators=new SearchOperators();
+
         searchButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                url+="search?";
+
                 url=create_link(url);
                 if (Desktop.isDesktopSupported()) {
                     // Windows
@@ -65,6 +65,8 @@ public class main_screen {
                         e1.printStackTrace();
                     }
                 }
+
+                url="http://www.google.com/search?q=";
             }
         });
     }
@@ -87,12 +89,17 @@ public class main_screen {
             {
                 words[i]=words[i].replaceAll(" ","+");
             }
-            url=searchOperators.all_the_words(url,words)+"&";
+            url=searchOperators.all_the_words(url,words);
         }
 
         if(!exact_word.getText().equals(""))
         {
-
+            String[] words=exact_word.getText().split(",");
+            for(int i=0;i<words.length;i++)
+            {
+                words[i]=words[i].replaceAll(" ","+");
+            }
+            url=searchOperators.exact_phrase(url,words);
         }
 
         if(!any_words.getText().equals(""))
@@ -103,7 +110,7 @@ public class main_screen {
             {
                 words[i]=words[i].replaceAll(" ","+");
             }
-            url=searchOperators.any_of_words(url,words)+"&";
+            url=searchOperators.any_of_words(url,words);
         }
 
         if(!non_words.getText().equals(""))
@@ -113,7 +120,15 @@ public class main_screen {
             {
                 words[i]=words[i].replaceAll(" ","+");
             }
-            url=searchOperators.non_of_words(url,words)+"&";
+            url=searchOperators.non_of_words(url,words);
+
+        }
+
+        if(!num_from.getText().equals("") && !num_to.getText().equals(""))
+        {
+            String number1=num_from.getText();
+            String number2=num_to.getText();
+            url=searchOperators.range(url,number1,number2);
 
         }
 

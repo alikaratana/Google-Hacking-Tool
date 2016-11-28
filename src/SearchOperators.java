@@ -1,19 +1,11 @@
-/**
- * Created by ali on 27.11.2016.
- */
+
 public class SearchOperators {
 
     public String all_the_words(String url, String[] strings)
     {
-        url+="as_q=";
         for (int i=0;i<strings.length;i++)
         {
-            if(i==strings.length-1)
-            {
-                url+=strings[i];
-            }
-            else
-            url+=strings[i]+"+";
+                url+=strings[i]+"+";
         }
 
         return url;
@@ -21,15 +13,9 @@ public class SearchOperators {
 
     public String exact_phrase(String url, String[] strings)
     {
-        url+="as_epq=";
         for (int i=0;i<strings.length;i++)
         {
-            if(i==strings.length-1)
-            {
-                url+=strings[i];
-            }
-            else
-                url+=strings[i]+"+";
+                url+="%22"+strings[i]+"%22+";
         }
 
         return url;
@@ -37,15 +23,13 @@ public class SearchOperators {
 
     public String any_of_words(String url, String[] strings)
     {
-        url+="as_oq=";
+
         for (int i=0;i<strings.length;i++)
         {
-            if(i==strings.length-1)
-            {
+            if(i==0)
                 url+=strings[i];
-            }
             else
-                url+=strings[i]+"+";
+                url+="+OR+"+strings[i];
         }
 
         return url;
@@ -53,17 +37,18 @@ public class SearchOperators {
 
     public String non_of_words(String url, String[] strings)
     {
-        url+="as_eq=";
+
         for (int i=0;i<strings.length;i++)
         {
-            if(i==strings.length-1)
-            {
-                url+=strings[i];
-            }
-            else
-                url+=strings[i]+"+";
+                url+="-"+strings[i]+"+";
         }
 
+        return url;
+    }
+
+    public String range(String url, String num1, String num2)
+    {
+        url+="+"+num1+".."+num2;
         return url;
     }
 }
