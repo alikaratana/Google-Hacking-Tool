@@ -1,3 +1,6 @@
+import javafx.scene.control.ComboBox;
+
+import javax.swing.*;
 
 public class SearchOperators {
 
@@ -51,4 +54,6 @@ public class SearchOperators {
         url+="+"+num1+".."+num2;
         return url;
     }
+
+
 }

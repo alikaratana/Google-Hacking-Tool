@@ -177,6 +177,8 @@
                           <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
+                          <background color="-1"/>
+                          <editable value="false"/>
                           <font size="11"/>
                         </properties>
                       </component>
@@ -185,6 +187,8 @@
                           <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
+                          <background color="-1"/>
+                          <editable value="false"/>
                           <enabled value="true"/>
                           <font size="10"/>
                         </properties>
@@ -205,14 +209,14 @@
                           <text value="type:"/>
                         </properties>
                       </component>
-                      <component id="804bc" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+                      <component id="804bc" class="javax.swing.JTextField" binding="type">
                         <constraints>
                           <grid row="6" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
                           </grid>
                         </constraints>
                         <properties>
-                          <enabled value="false"/>
+                          <enabled value="true"/>
                         </properties>
                       </component>
                       <component id="95aa4" class="javax.swing.JSeparator">
@@ -254,7 +258,9 @@
                         <constraints>
                           <grid row="8" column="0" row-span="1" col-span="4" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                         </constraints>
-                        <properties/>
+                        <properties>
+                          <font style="1"/>
+                        </properties>
                         <border type="line" title="Advanced Properties" title-justification="2" title-position="2">
                           <font/>
                           <color color="-16711421"/>
@@ -262,45 +268,36 @@
                         <children>
                           <component id="a8250" class="javax.swing.JLabel">
                             <constraints>
-                              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                             </constraints>
                             <properties>
                               <text value="In Language:"/>
                             </properties>
                           </component>
-                          <component id="483f9" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+                          <component id="483f9" class="javax.swing.JComboBox" binding="lang_box">
                             <constraints>
-                              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                              <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                             </constraints>
-                            <properties/>
+                            <properties>
+                              <background color="-1"/>
+                              <model/>
+                            </properties>
                           </component>
                           <component id="2ddc5" class="javax.swing.JLabel">
                             <constraints>
-                              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                             </constraints>
                             <properties>
                               <text value="In Region:"/>
                             </properties>
                           </component>
-                          <component id="4552d" class="javax.swing.JComboBox" binding="comboBox2" default-binding="true">
-                            <constraints>
-                              <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties/>
-                          </component>
-                          <component id="a9781" class="javax.swing.JLabel">
-                            <constraints>
-                              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties>
-                              <text value="Last Update:"/>
-                            </properties>
-                          </component>
-                          <component id="136bb" class="javax.swing.JComboBox" default-binding="true">
+                          <component id="4552d" class="javax.swing.JComboBox" binding="regions_box">
                             <constraints>
                               <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                             </constraints>
-                            <properties/>
+                            <properties>
+                              <background color="-1"/>
+                            </properties>
                           </component>
                           <component id="b1a54" class="javax.swing.JLabel">
                             <constraints>
@@ -310,13 +307,14 @@
                               <text value="Search in the site:"/>
                             </properties>
                           </component>
-                          <component id="76d27" class="javax.swing.JTextField" binding="textField2" default-binding="true">
+                          <component id="76d27" class="javax.swing.JTextField" binding="site_field">
                             <constraints>
                               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                 <preferred-size width="150" height="-1"/>
                               </grid>
                             </constraints>
                             <properties>
+                              <text value=""/>
                               <toolTipText value="Domain name"/>
                             </properties>
                           </component>
@@ -328,12 +326,28 @@
                               <text value="Cache Search (Anonymous):"/>
                             </properties>
                           </component>
-                          <component id="a7699" class="javax.swing.JRadioButton" binding="radioButton1" default-binding="true">
+                          <component id="a7699" class="javax.swing.JRadioButton" binding="cache">
                             <constraints>
                               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                             </constraints>
                             <properties>
                               <text value=""/>
+                            </properties>
+                          </component>
+                          <component id="a9781" class="javax.swing.JLabel">
+                            <constraints>
+                              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <text value="Last Update:"/>
+                            </properties>
+                          </component>
+                          <component id="136bb" class="javax.swing.JComboBox" binding="last_update">
+                            <constraints>
+                              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <background color="-1"/>
                             </properties>
                           </component>
                         </children>

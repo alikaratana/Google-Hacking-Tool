@@ -4,9 +4,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -33,11 +35,12 @@ public class main_screen {
     private JList list1;
     private JComboBox terms_in;
     private JComboBox file_types;
-    private JTextField textField1;
-    private JComboBox comboBox1;
-    private JComboBox comboBox2;
-    private JTextField textField2;
-    private JRadioButton radioButton1;
+    private JTextField type;
+    private JComboBox lang_box;
+    private JComboBox regions_box;
+    private JTextField site_field;
+    private JRadioButton cache;
+    private JComboBox last_update;
     public SearchOperators searchOperators;
     public String url="http://www.google.com/search?q=";
     static DefaultListModel<String> model = new DefaultListModel<>();
@@ -77,6 +80,20 @@ public class main_screen {
                 url="http://www.google.com/search?q=";
             }
         });
+        file_types.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if(!file_types.getSelectedItem().toString().equals("Other"))
+                {
+                    type.setEnabled(false);
+                }
+                else
+                {
+                    type.setEnabled(true);
+                }
+
+            }
+        });
     }
 
     public static void main(String[] args) {
@@ -90,6 +107,26 @@ public class main_screen {
 
     public String create_link(String url)
     {
+        if(cache.isSelected()==false)
+        {
+            if(!site_field.getText().equals(""))
+                url+="site:"+site_field.getText()+"+";
+        }
+        else
+            url+="cache:"+site_field.getText()+"+";
+
+
+        String value=String.valueOf(terms_in.getSelectedItem());
+        if(value.equals("In the url of the page"))
+            url+="inurl:";
+        else if(value.equals("In the title of the page"))
+            url+="intitle:";
+        else if(value.equals("In the text of the page"))
+            url+="intext:";
+        else if(value.equals("In links to the page"))
+            url+="link:";
+
+
         if(!all_words.getText().equals(""))
         {
             String[] words=all_words.getText().split(",");
@@ -140,6 +177,116 @@ public class main_screen {
 
         }
 
+        if(!type.getText().equals(""))
+            url+="filetype:"+type.getText()+"+";
+        else
+        {
+
+            String value1=String.valueOf(file_types.getSelectedItem());
+            if(value1.equals("Adobe Flash (.swf)"))
+                url+="filetype:swf+";
+            else if(value1.equals("Adobe Portable Document Format (.pdf)"))
+                url+="filetype:pdf+";
+            else if(value1.equals("HTML (.html)"))
+                url+="filetype:html+";
+            else if(value1.equals("Microsoft Excel (.xlsx)"))
+                url+="filetype:xlsx+";
+            else if(value1.equals("Microsoft PowerPoint (.pptx)"))
+                url+="filetype:pptx+";
+            else if(value1.equals("Microsoft Word (.docx)"))
+                url+="filetype:docx+";
+            else if(value1.equals("OpenOffice presentation (.odp)"))
+                url+="filetype:odp+";
+            else if(value1.equals("OpenOffice text (.odt)}"))
+                url+="filetype:odt+";
+            else if(value1.equals("Text (.txt)"))
+                url+="filetype:txt+";
+            else if(value1.equals("C source code (.c)"))
+                url+="filetype:c+";
+            else if(value1.equals("C++ source code (.cpp)"))
+                url+="filetype:ccp+";
+            else if(value1.equals("C# source code (.cs)"))
+                url+="filetype:cs+";
+            else if(value1.equals("Java source code (.java)"))
+                url+="filetype:java+";
+            else if(value1.equals("Python source code (.py)"))
+                url+="filetype:py+";
+            else if(value1.equals("Wireless Markup Language (.wml)"))
+                url+="filetype:wml";
+            else if(value1.equals("XML (.xml)"))
+                url+="filetype:xml+";
+
+            String value2=String.valueOf(last_update.getSelectedItem());
+            if(!value2.equals("Anytime"))
+            {
+                if(value2.equals("Last 1 Hour"))
+                    url+="&tbs=qdr:h";
+                else if(value2.equals("Last 24 Hour"))
+                    url+="&tbs=qdr:d";
+                else if(value2.equals("Last Week"))
+                    url+="&tbs=qdr:w";
+                else if(value2.equals("Last Month"))
+                    url+="&tbs=qdr:m";
+                else if(value2.equals("Last Year"))
+                    url+="&tbs=qdr:y";
+            }
+            else
+                url+="&tbas=0";
+
+            String value3=String.valueOf(lang_box.getSelectedItem());
+            if(!value3.equals("Any Language"))
+            {
+                if(value3.equals("English"))
+                    url+="&lr=lang_en";
+                else if(value3.equals("Turkish"))
+                    url+="&lr=lang_tr";
+                else if(value3.equals("German"))
+                    url+="&lr=lang_de";
+                else if(value3.equals("French"))
+                    url+="&lr=lang_fr";
+                else if(value3.equals("Italian"))
+                    url+="&lr=lang_it";
+                else if(value3.equals("Spanish"))
+                    url+="&lr=lang_es";
+                else if(value3.equals("Russian"))
+                    url+="&lr=lang_ru";
+                else if(value3.equals("Polish"))
+                    url+="&lr=lang_pl";
+                else if(value3.equals("SLovenian"))
+                    url+="&lr=lang_sl";
+                else if(value3.equals("Crotian"))
+                    url+="&lr=lang_hr";
+            }
+
+            String value4=String.valueOf(regions_box.getSelectedItem());
+            if(!value4.equals("Any Region"))
+            {
+                if(value4.equals("ABD"))
+                    url+="&cr=countryUS";
+                else if(value4.equals("United Kingdom"))
+                    url+="&cr=countryGB";
+                else if(value4.equals("Turkey"))
+                    url+="&cr=countryTR";
+                else if(value4.equals("Germany"))
+                    url+="&cr=countryDE";
+                else if(value4.equals("France"))
+                    url+="&cr=countryFR";
+                else if(value4.equals("Italy"))
+                    url+="&cr=countryIT";
+                else if(value4.equals("Spain"))
+                    url+="&cr=countryES";
+                else if(value4.equals("Russia"))
+                    url+="&cr=countryRU";
+                else if(value4.equals("Poland"))
+                    url+="&cr=countryPL";
+                else if(value4.equals("Slovenia"))
+                    url+="&cr=countrySI";
+                else if(value4.equals("Crotia"))
+                    url+="&cr=countryHR";
+            }
+
+
+        }
         return url;
     }
 
@@ -171,18 +318,31 @@ public class main_screen {
     {
         String[] terms={"Anywhere in the page","In the url of the page","In the title of the page",
                 "In the text of the page","In links to the page"};
-        String[] filetypes={"Other","Adobe Flash (.swf)","Adobe Portable Document Format (.pdf)","Adobe PostScript (.ps)",
-                "Autodesk Design Web Format (.dwf)","HTML (.htm, .html)","Microsoft Excel (.xls, .xlsx)",
-                "Microsoft PowerPoint (.ppt, .pptx)","Microsoft Word (.doc, .docx)","OpenOffice presentation (.odp)","OpenOffice text (.odt)}",
-                "Text (.txt, .text)","Basic source code (.bas)","C/C++ source code (.c, .cc, .cpp)",
-                "C# source code (.cs)","Java source code (.java)","Perl source code (.pl)","Python source code (.py)",
-                "Wireless Markup Language (.wml, .wap)","XML (.xml)"};
+        String[] filetypes={"Other","Adobe Flash (.swf)","Adobe Portable Document Format (.pdf)",
+                "HTML (.html)","Microsoft Excel (.xlsx)", "Microsoft PowerPoint (.pptx)","Microsoft Word (.docx)",
+                "OpenOffice presentation (.odp)","OpenOffice text (.odt)}", "Text (.txt)", "C source code (.c)",
+                "C++ source code (.cpp)", "C# source code (.cs)","Java source code (.java)",
+                "Python source code (.py)", "Wireless Markup Language (.wml)","XML (.xml)"};
+        String[] updates={"Anytime","Last 1 Hour","Last 24 Hour","Last Week","Last Month","Last Year"};
+        String[] languages={"Any Language","English","Turkish","German","French","Italian","Spanish","Russian","Polish","Slovenian","Crotian"};
+        String[] regions={"Any Region","ABD","Turkey","United Kingdom","Germany","France","Italy","Spain","Russia","Poland","Slovenia","Crotia"};
+
 
         for(int i=0;i<terms.length;i++)
             terms_in.addItem(terms[i]);
 
         for(int i=0;i<filetypes.length;i++)
             file_types.addItem(filetypes[i]);
+
+        for(int i=0;i<updates.length;i++)
+            last_update.addItem(updates[i]);
+
+        for(int i=0;i<languages.length;i++)
+            lang_box.addItem(languages[i]);
+
+        for(int i=0;i<regions.length;i++)
+            regions_box.addItem(regions[i]);
     }
+
 
 }
