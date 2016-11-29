@@ -297,6 +297,7 @@
                             </constraints>
                             <properties>
                               <background color="-1"/>
+                              <enabled value="false"/>
                             </properties>
                           </component>
                           <component id="b1a54" class="javax.swing.JLabel">
