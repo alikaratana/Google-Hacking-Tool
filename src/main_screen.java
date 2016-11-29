@@ -1,9 +1,9 @@
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -15,6 +15,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 public class main_screen {
@@ -32,7 +33,6 @@ public class main_screen {
     private JTextField non_words;
     private JTextField num_from;
     private JTextField num_to;
-    private JList list1;
     private JComboBox terms_in;
     private JComboBox file_types;
     private JTextField type;
@@ -41,16 +41,20 @@ public class main_screen {
     private JTextField site_field;
     private JRadioButton cache;
     private JComboBox last_update;
+    private JTable table1;
+    private JButton search_dork;
+    private JLabel ghdb_label;
     public SearchOperators searchOperators;
     public String url="http://www.google.com/search?q=";
-    static DefaultListModel<String> model = new DefaultListModel<>();
+
 
 
     public main_screen() {
         ghdb();
         fill_combos();
-
-        list1.setModel(model);
+        ghdb_label.setText("<html>These are the google dorks that founded by other people.<br>These google dorks may help you to understand what" +
+                "kind of google searches can find any kind of exploits.<br> You can see the dork (complete search text) and the url of it in the table.<br>" +
+                "By clicking the button below the screen, you can use the dork you've been selected and see the results on web page.</html>");
         searchOperators=new SearchOperators();
 
         searchButton.addMouseListener(new MouseAdapter() {
@@ -92,6 +96,32 @@ public class main_screen {
                     type.setEnabled(true);
                 }
 
+            }
+        });
+        search_dork.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int selectedRowIndex = table1.getSelectedRow();
+                String selectedObject = (String) table1.getModel().getValueAt(selectedRowIndex, 1);
+                String url_dork=selectedObject;
+                if (Desktop.isDesktopSupported()) {
+                    // Windows
+                    try {
+                        Desktop.getDesktop().browse(new URI(url_dork));
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    } catch (URISyntaxException e1) {
+                        e1.printStackTrace();
+                    }
+                } else {
+                    // Ubuntu
+                    Runtime runtime = Runtime.getRuntime();
+                    try {
+                        runtime.exec("/usr/bin/firefox -new-window " + url_dork);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
             }
         });
     }
@@ -290,6 +320,7 @@ public class main_screen {
         return url;
     }
 
+
     public void ghdb()
     {
         List<String> linkler=new ArrayList<String>();
@@ -306,10 +337,27 @@ public class main_screen {
         for (Element link : links) {
             linkler.add(link.attr("abs:href"));
             linklera.add(link.text());
-            model.addElement(link.attr("abs:href"));
 
         }
-        list1.setModel(model);
+
+        linkler.toArray();
+        linklera.toArray();
+
+        Object[] columnNames = {"Google Dork", "Google Search Link"};
+        DefaultTableModel model = new DefaultTableModel(new Object[0][0], columnNames);
+
+        for(int i=0;i<linkler.toArray().length;i++)
+        {
+            if(!linklera.toArray()[i].equals("")) {
+                Object[] o = new Object[2];
+                o[0] = linklera.toArray()[i];
+                o[1] = linkler.toArray()[i];
+                model.addRow(o);
+            }
+        }
+
+
+        table1.setModel(model);
 
 
     }

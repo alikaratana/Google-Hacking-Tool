@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="main_screen">
-  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="true" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="961" height="571"/>
+      <xy x="20" y="20" width="1109" height="571"/>
     </constraints>
     <properties>
-      <preferredSize width="700" height="500"/>
+      <preferredSize width="900" height="550"/>
     </properties>
     <border type="none"/>
     <children>
@@ -366,7 +366,7 @@
               </grid>
             </children>
           </grid>
-          <grid id="325d" binding="ghdb" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="325d" binding="ghdb" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="5" left="5" bottom="5" right="5"/>
             <constraints>
               <tabbedpane title="Google Hacking Database"/>
@@ -378,25 +378,38 @@
             <children>
               <scrollpane id="3af6a">
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="308" height="421"/>
+                  </grid>
                 </constraints>
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="1e25b" class="javax.swing.JList" binding="list1" default-binding="true">
+                  <component id="6dc41" class="javax.swing.JTable" binding="table1" default-binding="true">
                     <constraints/>
-                    <properties>
-                      <font name="Bitstream Vera Sans Mono" size="9" style="0"/>
-                    </properties>
+                    <properties/>
                   </component>
                 </children>
               </scrollpane>
-              <component id="df0a" class="javax.swing.JButton" default-binding="true">
+              <component id="df0a" class="javax.swing.JButton" binding="search_dork">
                 <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="308" height="34"/>
+                  </grid>
                 </constraints>
                 <properties>
                   <text value="Use Selected Google Dork"/>
+                </properties>
+              </component>
+              <component id="d2b7a" class="javax.swing.JLabel" binding="ghdb_label">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <foreground color="-1376769"/>
+                  <horizontalAlignment value="0"/>
+                  <horizontalTextPosition value="0"/>
+                  <text value="Label"/>
                 </properties>
               </component>
             </children>
