@@ -44,6 +44,7 @@ public class main_screen {
     private JTable table1;
     private JButton search_dork;
     private JLabel ghdb_label;
+    private JButton button1;
     public SearchOperators searchOperators;
     public String url="http://www.google.com/search?q=";
 
@@ -52,10 +53,11 @@ public class main_screen {
     public main_screen() {
         ghdb();
         fill_combos();
-        ghdb_label.setText("<html>These are the google dorks that founded by other people.<br>These google dorks may help you to understand what" +
-                "kind of google searches can find any kind of exploits.<br> You can see the dork (complete search text) and the url of it in the table.<br>" +
+        ghdb_label.setText("<html>These are the google dorks which are created before by other people.<br>These google dorks may help you to understand what" +
+                " kind of google searches can find any kind of exploits.<br> You can see the dork (complete search text) and the url of it in the table.<br>" +
                 "By clicking the button below the screen, you can use the dork you've been selected and see the results on web page.</html>");
         searchOperators=new SearchOperators();
+
 
         searchButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -344,7 +346,14 @@ public class main_screen {
         linklera.toArray();
 
         Object[] columnNames = {"Google Dork", "Google Search Link"};
-        DefaultTableModel model = new DefaultTableModel(new Object[0][0], columnNames);
+        DefaultTableModel model = new DefaultTableModel(new Object[0][0], columnNames){
+
+            @Override
+            public boolean isCellEditable(int i, int i1) {
+                return false;
+            }
+
+        };
 
         for(int i=0;i<linkler.toArray().length;i++)
         {
