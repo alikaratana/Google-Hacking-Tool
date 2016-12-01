@@ -1,6 +1,3 @@
-import javafx.scene.control.ComboBox;
-
-import javax.swing.*;
 
 public class SearchOperators {
 

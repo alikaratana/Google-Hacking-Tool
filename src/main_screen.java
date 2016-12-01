@@ -21,13 +21,13 @@ import java.util.List;
 public class main_screen {
 
 
-    private JPanel panel1;
+    private JPanel GHackTool;
     private JTabbedPane tabbedPane1;
     private JTextField all_words;
     private JButton searchButton;
     private JPanel ags;
     private JPanel ghdb;
-    private JPanel zday;
+    private JPanel exp;
     private JTextField exact_word;
     private JTextField any_words;
     private JTextField non_words;
@@ -44,7 +44,9 @@ public class main_screen {
     private JTable table1;
     private JButton search_dork;
     private JLabel ghdb_label;
-    private JButton button1;
+    private JButton exploit;
+    private JTable table2;
+    private JLabel exploit_label;
     public SearchOperators searchOperators;
     public String url="http://www.google.com/search?q=";
 
@@ -53,11 +55,9 @@ public class main_screen {
     public main_screen() {
         ghdb();
         fill_combos();
-        ghdb_label.setText("<html>These are the google dorks which are created before by other people.<br>These google dorks may help you to understand what" +
-                " kind of google searches can find any kind of exploits.<br> You can see the dork (complete search text) and the url of it in the table.<br>" +
-                "By clicking the button below the screen, you can use the dork you've been selected and see the results on web page.</html>");
-        searchOperators=new SearchOperators();
+        exploit();
 
+        searchOperators=new SearchOperators();
 
         searchButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -86,6 +86,8 @@ public class main_screen {
                 url="http://www.google.com/search?q=";
             }
         });
+
+
         file_types.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -100,6 +102,8 @@ public class main_screen {
 
             }
         });
+
+
         search_dork.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -126,11 +130,37 @@ public class main_screen {
                 }
             }
         });
+        exploit.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int selectedRowIndex = table2.getSelectedRow();
+                String selectedObject = (String) table2.getModel().getValueAt(selectedRowIndex, 1);
+                String url_exploit=selectedObject;
+                if (Desktop.isDesktopSupported()) {
+                    // Windows
+                    try {
+                        Desktop.getDesktop().browse(new URI(url_exploit));
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    } catch (URISyntaxException e1) {
+                        e1.printStackTrace();
+                    }
+                } else {
+                    // Ubuntu
+                    Runtime runtime = Runtime.getRuntime();
+                    try {
+                        runtime.exec("/usr/bin/firefox -new-window " + url_exploit);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("GHackTool");
-        frame.setContentPane(new main_screen().panel1);
+        frame.setContentPane(new main_screen().GHackTool);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
@@ -325,10 +355,18 @@ public class main_screen {
 
     public void ghdb()
     {
-        List<String> linkler=new ArrayList<String>();
-        List<String> linklera=new ArrayList<String>();
+        ghdb_label.setText("<html>These are the google dorks which are created before by other people.<br>These google dorks may help you to understand what" +
+                " kind of google searches can find any kind of exploits.<br> You can see the dork (complete search text) and the url of it in the table.<br>" +
+                "By clicking the button below the screen, you can use the dork you've been selected and see the results on web page.</html>");
+
+        table1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        List<String> link_list=new ArrayList<String>();
+        List<String> dork_list=new ArrayList<String>();
+
         File input = new File("Ghdb/ghdb_1-3953.html");
         Document doc = null;
+
         try {
             doc = Jsoup.parse(input, "UTF-8", "http://example.com/");
         } catch (IOException e) {
@@ -337,13 +375,13 @@ public class main_screen {
         Elements links = doc.select("a[href]");
 
         for (Element link : links) {
-            linkler.add(link.attr("abs:href"));
-            linklera.add(link.text());
+            link_list.add(link.attr("abs:href"));
+            dork_list.add(link.text());
 
         }
 
-        linkler.toArray();
-        linklera.toArray();
+        link_list.toArray();
+        dork_list.toArray();
 
         Object[] columnNames = {"Google Dork", "Google Search Link"};
         DefaultTableModel model = new DefaultTableModel(new Object[0][0], columnNames){
@@ -355,12 +393,12 @@ public class main_screen {
 
         };
 
-        for(int i=0;i<linkler.toArray().length;i++)
+        for(int i=0;i<link_list.toArray().length;i++)
         {
-            if(!linklera.toArray()[i].equals("")) {
+            if(!dork_list.toArray()[i].equals("")) {
                 Object[] o = new Object[2];
-                o[0] = linklera.toArray()[i];
-                o[1] = linkler.toArray()[i];
+                o[0] = dork_list.toArray()[i];
+                o[1] = link_list.toArray()[i];
                 model.addRow(o);
             }
         }
@@ -401,5 +439,62 @@ public class main_screen {
             regions_box.addItem(regions[i]);
     }
 
+    public void exploit() {
+        exploit_label.setText("<html>This is the list of up-to-date exploits from Exploit-DB.<br> All of the exploits are obtained from Internet " +
+                "in every use of this application.<br> You can see the exploit description and the url for the details of the exploit.<br>" +
+                "By clicking the button below the screen, you can reach the website to see more detailed view about selected exploit.</html>");
+        table2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        Object[] columnNames = {"Exploit Description","Exploit Details Link"};
+        DefaultTableModel model = new DefaultTableModel(new Object[0][0], columnNames){
+
+            @Override
+            public boolean isCellEditable(int i, int i1) {
+                return false;
+            }
+
+        };
+
+        ArrayList<String> exp_desc = new ArrayList<>();
+        ArrayList<String> exp_link = new ArrayList<>();
+        String url = "https://www.exploit-db.com/browse/";
+
+        Document doc = null;
+        try {
+            doc = Jsoup.connect(url).userAgent("Mozilla").get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Elements links = doc.select("a[href]");
+        Elements media = doc.select("[src]");
+        Elements imports = doc.select("link[href]");
+        Element table = doc.select("table.exploit_list").first();
+        Elements links1 = table.select("a[href]");
+        Elements rows = table.select("tr");
+        Elements els = doc.getElementsByClass("description");
+
+
+        for (Element link : links1) {
+
+            exp_link.add(link.attr("abs:href"));
+        }
+        for (Element link : els) {
+
+            exp_desc.add(link.text());
+        }
+
+        for(int i=0;i<exp_desc.toArray().length;i++)
+        {
+
+                Object[] o = new Object[2];
+                o[0] = exp_desc.toArray()[i];
+                o[1] =exp_link.toArray()[i];
+
+                model.addRow(o);
+
+        }
+        table2.setModel(model);
+    }
 
 }
