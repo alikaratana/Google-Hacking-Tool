@@ -47,6 +47,7 @@ public class main_screen {
     private JButton exploit;
     private JTable table2;
     private JLabel exploit_label;
+    private JLabel for_education;
     public SearchOperators searchOperators;
     public String url="http://www.google.com/search?q=";
 
@@ -56,6 +57,7 @@ public class main_screen {
         ghdb();
         fill_combos();
         exploit();
+        for_education.setText("<html>Please use this app only for <br>educational purposes !!</html>");
 
         searchOperators=new SearchOperators();
 
@@ -108,24 +110,30 @@ public class main_screen {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int selectedRowIndex = table1.getSelectedRow();
-                String selectedObject = (String) table1.getModel().getValueAt(selectedRowIndex, 1);
-                String url_dork=selectedObject;
-                if (Desktop.isDesktopSupported()) {
-                    // Windows
-                    try {
-                        Desktop.getDesktop().browse(new URI(url_dork));
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    } catch (URISyntaxException e1) {
-                        e1.printStackTrace();
-                    }
-                } else {
-                    // Ubuntu
-                    Runtime runtime = Runtime.getRuntime();
-                    try {
-                        runtime.exec("/usr/bin/firefox -new-window " + url_dork);
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
+                if(selectedRowIndex==-1)
+                {
+                    JOptionPane.showMessageDialog(GHackTool,"Please choose a link first !!","Warning",JOptionPane.WARNING_MESSAGE);
+                }
+                else {
+                    String selectedObject = (String) table1.getModel().getValueAt(selectedRowIndex, 2);
+                    String url_dork = selectedObject;
+                    if (Desktop.isDesktopSupported()) {
+                        // Windows
+                        try {
+                            Desktop.getDesktop().browse(new URI(url_dork));
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        } catch (URISyntaxException e1) {
+                            e1.printStackTrace();
+                        }
+                    } else {
+                        // Ubuntu
+                        Runtime runtime = Runtime.getRuntime();
+                        try {
+                            runtime.exec("/usr/bin/firefox -new-window " + url_dork);
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
                     }
                 }
             }
@@ -134,28 +142,35 @@ public class main_screen {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int selectedRowIndex = table2.getSelectedRow();
-                String selectedObject = (String) table2.getModel().getValueAt(selectedRowIndex, 1);
-                String url_exploit=selectedObject;
-                if (Desktop.isDesktopSupported()) {
-                    // Windows
-                    try {
-                        Desktop.getDesktop().browse(new URI(url_exploit));
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    } catch (URISyntaxException e1) {
-                        e1.printStackTrace();
-                    }
-                } else {
-                    // Ubuntu
-                    Runtime runtime = Runtime.getRuntime();
-                    try {
-                        runtime.exec("/usr/bin/firefox -new-window " + url_exploit);
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
+                if(selectedRowIndex==-1)
+                {
+                    JOptionPane.showMessageDialog(GHackTool,"Please choose a link first !!","Warning",JOptionPane.WARNING_MESSAGE);
+                }
+                else {
+                    String selectedObject = (String) table2.getModel().getValueAt(selectedRowIndex, 2);
+                    String url_exploit = selectedObject;
+                    if (Desktop.isDesktopSupported()) {
+                        // Windows
+                        try {
+                            Desktop.getDesktop().browse(new URI(url_exploit));
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        } catch (URISyntaxException e1) {
+                            e1.printStackTrace();
+                        }
+                    } else {
+                        // Ubuntu
+                        Runtime runtime = Runtime.getRuntime();
+                        try {
+                            runtime.exec("/usr/bin/firefox -new-window " + url_exploit);
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
                     }
                 }
             }
         });
+
     }
 
     public static void main(String[] args) {
@@ -445,7 +460,7 @@ public class main_screen {
                 "By clicking the button below the screen, you can reach the website to see more detailed view about selected exploit.</html>");
         table2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        Object[] columnNames = {"Exploit Description","Exploit Details Link"};
+        Object[] columnNames = {"Publish Date","Exploit Description","Exploit Details Link"};
         DefaultTableModel model = new DefaultTableModel(new Object[0][0], columnNames){
 
             @Override
@@ -455,6 +470,7 @@ public class main_screen {
 
         };
 
+        ArrayList<String> exp_date = new ArrayList<>();
         ArrayList<String> exp_desc = new ArrayList<>();
         ArrayList<String> exp_link = new ArrayList<>();
         String url = "https://www.exploit-db.com/browse/";
@@ -473,28 +489,46 @@ public class main_screen {
         Elements links1 = table.select("a[href]");
         Elements rows = table.select("tr");
         Elements els = doc.getElementsByClass("description");
+        Elements dates= doc.getElementsByClass("date");
 
 
-        for (Element link : links1) {
-
-            exp_link.add(link.attr("abs:href"));
+        for (Element date : dates) {
+            if(!date.text().equals("Date"))
+                exp_date.add(date.text());
         }
+
+        for (Element desc : els) {
+            if(!desc.text().equals("Title"))
+                exp_desc.add(desc.text());
+        }
+
         for (Element link : els) {
+            String the_link=link.select("a[href]").attr("abs:href").toString();
+            if(!the_link.equals("https://www.exploit-db.com/browse/?order_by=title&order=asc&pg=1"))
+            exp_link.add(the_link);
 
-            exp_desc.add(link.text());
         }
+
+
 
         for(int i=0;i<exp_desc.toArray().length;i++)
         {
 
-                Object[] o = new Object[2];
-                o[0] = exp_desc.toArray()[i];
-                o[1] =exp_link.toArray()[i];
+                Object[] o = new Object[3];
+                o[0] = exp_date.toArray()[i];
+                o[1] = exp_desc.toArray()[i];
+                o[2] =exp_link.toArray()[i];
 
                 model.addRow(o);
 
         }
         table2.setModel(model);
+        table2.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        table2.getColumnModel().getColumn(0).setPreferredWidth(100);
+        table2.getColumnModel().getColumn(1).setPreferredWidth(500);
+        table2.getColumnModel().getColumn(2).setPreferredWidth(300);
+
+
     }
 
 }
