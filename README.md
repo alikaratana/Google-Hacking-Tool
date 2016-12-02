@@ -1,6 +1,7 @@
 # GHackTool
 
 ## A Java based Google Hacking Tool.
+ **Warning** :This tool can be used only for educational purposes !!
 
 ### + Advanced Google Searching
        - Search Term Options
