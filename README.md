@@ -4,11 +4,11 @@
  **Warning** : This tool can be used only for educational purposes !!
 
 ### + Advanced Google Searching
-Search Term Options
-Search Area Options
-Cache Search (Anonymous)
-Search Time Options
-File Type Options
+Search Term Options<br>
+Search Area Options<be>
+Cache Search (Anonymous)<br>
+Search Time Options<br>
+File Type Options<br>
 Search Language Options
 ### + Google Hacking Database Access
 List of google dorks with their links which can be used for specific searches
