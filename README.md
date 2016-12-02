@@ -12,5 +12,5 @@
 ### + Google Hacking Database Access
        - List of google dorks with their links which can be used for specific searches
 ### + Exploit Database Access
-       - List of date, description and detailed information link for exploits from Exploit-db 
+       - List of date, description and detailed information link for up-to-date exploits from Exploit-db 
          (https://www.exploit-db.com/)
