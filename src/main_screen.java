@@ -48,8 +48,10 @@ public class main_screen {
     private JTable table2;
     private JLabel exploit_label;
     private JLabel for_education;
+    private JButton add_query;
+    private JButton resetTheSearchUrlButton;
     public SearchOperators searchOperators;
-    public String url="http://www.google.com/search?q=";
+    public String url_last="http://www.google.com/search?q=";
 
 
 
@@ -61,15 +63,22 @@ public class main_screen {
 
         searchOperators=new SearchOperators();
 
+        add_query.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                url_last+=add_serch_query();
+            }
+        });
+
         searchButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
 
-                url=create_link(url);
+
                 if (Desktop.isDesktopSupported()) {
                     // Windows
                     try {
-                        Desktop.getDesktop().browse(new URI(url));
+                        Desktop.getDesktop().browse(new URI(url_last));
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     } catch (URISyntaxException e1) {
@@ -79,13 +88,13 @@ public class main_screen {
                     // Ubuntu
                     Runtime runtime = Runtime.getRuntime();
                     try {
-                        runtime.exec("/usr/bin/firefox -new-window " + url);
+                        runtime.exec("/usr/bin/firefox -new-window " + url_last);
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
                 }
 
-                url="http://www.google.com/search?q=";
+                url_last="http://www.google.com/search?q=";
             }
         });
 
@@ -171,6 +180,13 @@ public class main_screen {
             }
         });
 
+
+        resetTheSearchUrlButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                url_last="http://www.google.com/search?q=";
+            }
+        });
     }
 
     public static void main(String[] args) {
@@ -182,26 +198,28 @@ public class main_screen {
 
     }
 
-    public String create_link(String url)
+    public String add_serch_query()
     {
+        String query="";
+
         if(cache.isSelected()==false)
         {
             if(!site_field.getText().equals(""))
-                url+="site:"+site_field.getText()+"+";
+                query+="site:"+site_field.getText()+"+";
         }
         else
-            url+="cache:"+site_field.getText()+"+";
+            query+="cache:"+site_field.getText()+"+";
 
 
         String value=String.valueOf(terms_in.getSelectedItem());
         if(value.equals("In the url of the page"))
-            url+="inurl:";
+            query+="inurl:";
         else if(value.equals("In the title of the page"))
-            url+="intitle:";
+            query+="intitle:";
         else if(value.equals("In the text of the page"))
-            url+="intext:";
+            query+="intext:";
         else if(value.equals("In links to the page"))
-            url+="link:";
+            query+="link:";
 
 
         if(!all_words.getText().equals(""))
@@ -211,7 +229,7 @@ public class main_screen {
             {
                 words[i]=words[i].replaceAll(" ","+");
             }
-            url=searchOperators.all_the_words(url,words);
+            query=searchOperators.all_the_words(query,words);
         }
 
         if(!exact_word.getText().equals(""))
@@ -221,7 +239,7 @@ public class main_screen {
             {
                 words[i]=words[i].replaceAll(" ","+");
             }
-            url=searchOperators.exact_phrase(url,words);
+            query=searchOperators.exact_phrase(query,words);
         }
 
         if(!any_words.getText().equals(""))
@@ -232,7 +250,7 @@ public class main_screen {
             {
                 words[i]=words[i].replaceAll(" ","+");
             }
-            url=searchOperators.any_of_words(url,words);
+            query=searchOperators.any_of_words(query,words);
         }
 
         if(!non_words.getText().equals(""))
@@ -242,7 +260,7 @@ public class main_screen {
             {
                 words[i]=words[i].replaceAll(" ","+");
             }
-            url=searchOperators.non_of_words(url,words);
+            query=searchOperators.non_of_words(query,words);
 
         }
 
@@ -250,121 +268,120 @@ public class main_screen {
         {
             String number1=num_from.getText();
             String number2=num_to.getText();
-            url=searchOperators.range(url,number1,number2);
+            query=searchOperators.range(query,number1,number2);
 
         }
 
         if(!type.getText().equals(""))
-            url+="filetype:"+type.getText()+"+";
+            query+="filetype:"+type.getText()+"+";
         else
         {
 
             String value1=String.valueOf(file_types.getSelectedItem());
             if(value1.equals("Adobe Flash (.swf)"))
-                url+="filetype:swf+";
+                query+="filetype:swf+";
             else if(value1.equals("Adobe Portable Document Format (.pdf)"))
-                url+="filetype:pdf+";
+                query+="filetype:pdf+";
             else if(value1.equals("HTML (.html)"))
-                url+="filetype:html+";
+                query+="filetype:html+";
             else if(value1.equals("Microsoft Excel (.xlsx)"))
-                url+="filetype:xlsx+";
+                query+="filetype:xlsx+";
             else if(value1.equals("Microsoft PowerPoint (.pptx)"))
-                url+="filetype:pptx+";
+                query+="filetype:pptx+";
             else if(value1.equals("Microsoft Word (.docx)"))
-                url+="filetype:docx+";
+                query+="filetype:docx+";
             else if(value1.equals("OpenOffice presentation (.odp)"))
-                url+="filetype:odp+";
+                query+="filetype:odp+";
             else if(value1.equals("OpenOffice text (.odt)}"))
-                url+="filetype:odt+";
+                query+="filetype:odt+";
             else if(value1.equals("Text (.txt)"))
-                url+="filetype:txt+";
+                query+="filetype:txt+";
             else if(value1.equals("C source code (.c)"))
-                url+="filetype:c+";
+                query+="filetype:c+";
             else if(value1.equals("C++ source code (.cpp)"))
-                url+="filetype:ccp+";
+                query+="filetype:ccp+";
             else if(value1.equals("C# source code (.cs)"))
-                url+="filetype:cs+";
+                query+="filetype:cs+";
             else if(value1.equals("Java source code (.java)"))
-                url+="filetype:java+";
+                query+="filetype:java+";
             else if(value1.equals("Python source code (.py)"))
-                url+="filetype:py+";
+                query+="filetype:py+";
             else if(value1.equals("Wireless Markup Language (.wml)"))
-                url+="filetype:wml";
+                query+="filetype:wml";
             else if(value1.equals("XML (.xml)"))
-                url+="filetype:xml+";
+                query+="filetype:xml+";
 
             String value2=String.valueOf(last_update.getSelectedItem());
             if(!value2.equals("Anytime"))
             {
                 if(value2.equals("Last 1 Hour"))
-                    url+="&tbs=qdr:h";
+                    query+="&tbs=qdr:h";
                 else if(value2.equals("Last 24 Hour"))
-                    url+="&tbs=qdr:d";
+                    query+="&tbs=qdr:d";
                 else if(value2.equals("Last Week"))
-                    url+="&tbs=qdr:w";
+                    query+="&tbs=qdr:w";
                 else if(value2.equals("Last Month"))
-                    url+="&tbs=qdr:m";
+                    query+="&tbs=qdr:m";
                 else if(value2.equals("Last Year"))
-                    url+="&tbs=qdr:y";
+                    query+="&tbs=qdr:y";
             }
-            else
-                url+="&tbas=0";
+
 
             String value3=String.valueOf(lang_box.getSelectedItem());
             if(!value3.equals("Any Language"))
             {
                 if(value3.equals("English"))
-                    url+="&lr=lang_en";
+                    query+="&lr=lang_en";
                 else if(value3.equals("Turkish"))
-                    url+="&lr=lang_tr";
+                    query+="&lr=lang_tr";
                 else if(value3.equals("German"))
-                    url+="&lr=lang_de";
+                    query+="&lr=lang_de";
                 else if(value3.equals("French"))
-                    url+="&lr=lang_fr";
+                    query+="&lr=lang_fr";
                 else if(value3.equals("Italian"))
-                    url+="&lr=lang_it";
+                    query+="&lr=lang_it";
                 else if(value3.equals("Spanish"))
-                    url+="&lr=lang_es";
+                    query+="&lr=lang_es";
                 else if(value3.equals("Russian"))
-                    url+="&lr=lang_ru";
+                    query+="&lr=lang_ru";
                 else if(value3.equals("Polish"))
-                    url+="&lr=lang_pl";
+                    query+="&lr=lang_pl";
                 else if(value3.equals("SLovenian"))
-                    url+="&lr=lang_sl";
+                    query+="&lr=lang_sl";
                 else if(value3.equals("Crotian"))
-                    url+="&lr=lang_hr";
+                    query+="&lr=lang_hr";
             }
 
             String value4=String.valueOf(regions_box.getSelectedItem());
             if(!value4.equals("Any Region"))
             {
                 if(value4.equals("ABD"))
-                    url+="&cr=countryUS";
+                    query+="&cr=countryUS";
                 else if(value4.equals("United Kingdom"))
-                    url+="&cr=countryGB";
+                    query+="&cr=countryGB";
                 else if(value4.equals("Turkey"))
-                    url+="&cr=countryTR";
+                    query+="&cr=countryTR";
                 else if(value4.equals("Germany"))
-                    url+="&cr=countryDE";
+                    query+="&cr=countryDE";
                 else if(value4.equals("France"))
-                    url+="&cr=countryFR";
+                    query+="&cr=countryFR";
                 else if(value4.equals("Italy"))
-                    url+="&cr=countryIT";
+                    query+="&cr=countryIT";
                 else if(value4.equals("Spain"))
-                    url+="&cr=countryES";
+                    query+="&cr=countryES";
                 else if(value4.equals("Russia"))
-                    url+="&cr=countryRU";
+                    query+="&cr=countryRU";
                 else if(value4.equals("Poland"))
-                    url+="&cr=countryPL";
+                    query+="&cr=countryPL";
                 else if(value4.equals("Slovenia"))
-                    url+="&cr=countrySI";
+                    query+="&cr=countrySI";
                 else if(value4.equals("Crotia"))
-                    url+="&cr=countryHR";
+                    query+="&cr=countryHR";
             }
 
 
         }
-        return url;
+        return query;
     }
 
 
