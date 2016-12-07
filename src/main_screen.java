@@ -67,6 +67,15 @@ public class main_screen {
             @Override
             public void mouseClicked(MouseEvent e) {
                 url_last+=add_serch_query();
+                all_words.setText("");
+                any_words.setText("");
+                exact_word.setText("");
+                non_words.setText("");
+                site_field.setText("");
+                num_from.setText("");
+                num_to.setText("");
+                type.setText("");
+                JOptionPane.showMessageDialog(GHackTool,"Query terms has been added !","Information",JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
@@ -185,6 +194,7 @@ public class main_screen {
             @Override
             public void mouseClicked(MouseEvent e) {
                 url_last="http://www.google.com/search?q=";
+                JOptionPane.showMessageDialog(GHackTool,"The search url has been resetted to Google's main page !","Information",JOptionPane.INFORMATION_MESSAGE);
             }
         });
     }
