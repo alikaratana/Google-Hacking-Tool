@@ -115,7 +115,7 @@ public class main_screen {
                     JOptionPane.showMessageDialog(GHackTool,"Please choose a link first !!","Warning",JOptionPane.WARNING_MESSAGE);
                 }
                 else {
-                    String selectedObject = (String) table1.getModel().getValueAt(selectedRowIndex, 2);
+                    String selectedObject = (String) table1.getModel().getValueAt(selectedRowIndex, 1);
                     String url_dork = selectedObject;
                     if (Desktop.isDesktopSupported()) {
                         // Windows
